@@ -49,8 +49,12 @@ Parameters: 2D list of strs
 Returns: list of strs
 '''
 def buildVocabulary(corpus):
-    return
-
+    unigram=[]
+    for lines in corpus:
+        for words in lines:
+         if words not in unigram:
+            unigram.append(words)
+    return unigram
 
 '''
 countUnigrams(corpus)
