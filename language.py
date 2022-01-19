@@ -85,7 +85,6 @@ def getStartWords(corpus):
         words= lines[0]
         if words not in unigram:
             unigram.append(words)   
-
     return unigram
 
 
@@ -96,7 +95,14 @@ Parameters: 2D list of strs
 Returns: dict mapping strs to ints
 '''
 def countStartWords(corpus):
-    return
+    unigram={}
+    for lines in corpus:
+        word=lines[0]
+        if word in unigram:
+            unigram[word]+= 1
+        else:
+            unigram[word] = 1       
+    return unigram
 
 
 '''
