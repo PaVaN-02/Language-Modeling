@@ -4,6 +4,7 @@ Name:
 Roll No:
 """
 
+from __future__ import division
 import language_tests as test
 
 project = "Language" # don't edit this
@@ -146,7 +147,12 @@ Parameters: list of strs ; dict mapping strs to ints ; int
 Returns: list of floats
 '''
 def buildUnigramProbs(unigrams, unigramCounts, totalCount):
-    return
+    Probability=[]
+    for i in range(len(unigrams)):
+        count=unigramCounts[unigrams[i]]
+        division=count/totalCount
+        Probability.append(division) 
+    return Probability
 
 
 '''
