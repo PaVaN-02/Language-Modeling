@@ -5,6 +5,7 @@ Roll No:
 """
 
 from __future__ import division
+from optparse import Values
 import language_tests as test
 
 project = "Language" # don't edit this
@@ -162,8 +163,19 @@ Parameters: dict mapping strs to ints ; dict mapping strs to (dicts mapping strs
 Returns: dict mapping strs to (dicts mapping strs to (lists of values))
 '''
 def buildBigramProbs(unigramCounts, bigramCounts):
-    return
-
+    outerDict={}
+    for prevWord in bigramCounts.keys():
+        word=[]
+        Probability=[]
+        temp={}
+        for key,value in bigramCounts[prevWord].items():
+            word.append(key)
+            prob=value/unigramCounts[prevWord]
+            Probability.append(prob)
+            temp["words"]= word
+            temp["probs"]=Probability
+        outerDict[prevWord]=temp
+    return outerDict
 
 '''
 getTopWords(count, words, probs, ignoreList)
