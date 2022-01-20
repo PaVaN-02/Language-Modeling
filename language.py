@@ -184,8 +184,13 @@ Parameters: int ; list of strs ; list of floats ; list of strs
 Returns: dict mapping strs to floats
 '''
 def getTopWords(count, words, probs, ignoreList):
-    return
-
+    import operator
+    NewDict={}
+    for i in range(len(words)):
+        if words[i] not in ignoreList:
+            NewDict[words[i]]=probs[i]
+    Topwords = dict(sorted(NewDict.items(), key=operator.itemgetter(1), reverse=True)[:count])
+    return Topwords
 
 '''
 generateTextFromUnigrams(count, words, probs)
