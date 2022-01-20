@@ -200,8 +200,11 @@ Returns: str
 '''
 from random import choices
 def generateTextFromUnigrams(count, words, probs):
-    return
-
+    sentence=""
+    for i in range(count):
+        word=choices(words, weights=probs)
+        sentence=sentence+" "+word[0]
+    return sentence    
 
 '''
 generateTextFromBigrams(count, startWords, startWordProbs, bigramProbs)
