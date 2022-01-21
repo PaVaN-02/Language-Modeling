@@ -5,6 +5,7 @@ Roll No:
 """
 
 from __future__ import division
+from lib2to3.refactor import get_all_fix_names
 from optparse import Values
 import language_tests as test
 
@@ -256,7 +257,13 @@ Parameters: 2D list of strs
 Returns: None
 '''
 def graphTopStartWords(corpus):
-    return
+    unigramlist=getStartWords(corpus)
+    unicount=countStartWords(corpus)
+    count=len(corpus)
+    UniProb=buildUnigramProbs(unigramlist,unicount,count)
+    topWord=getTopWords(50,unigramlist,UniProb,ignore)
+    barPlot(topWord,"Top Start Words")
+    return None
 
 
 '''
@@ -266,8 +273,7 @@ Parameters: 2D list of strs ; str
 Returns: None
 '''
 def graphTopNextWords(corpus, word):
-    return
-
+    return 
 
 '''
 setupChartData(corpus1, corpus2, topWordCount)
