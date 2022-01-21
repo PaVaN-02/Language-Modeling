@@ -149,13 +149,16 @@ Parameters: list of strs ; dict mapping strs to ints ; int
 Returns: list of floats
 '''
 def buildUnigramProbs(unigrams, unigramCounts, totalCount):
-    Probability=[]
+    probabiltyList=[]
+    count=0
     for i in range(len(unigrams)):
-        count=unigramCounts[unigrams[i]]
-        division=count/totalCount
-        Probability.append(division) 
-    return Probability
-
+        if unigrams[i] in unigramCounts:
+            count=unigramCounts[unigrams[i]]
+            probability=count/totalCount
+            probabiltyList.append(probability) 
+        else:
+            probabiltyList.append(0)
+    return probabiltyList
 
 '''
 buildBigramProbs(unigramCounts, bigramCounts)
@@ -279,7 +282,7 @@ def graphTopNextWords(corpus, word):
     nextWords=getTopWords(10, list(bigramProbs[word].values())[0],list(bigramProbs[word].values())[1], ignore)
     barPlot(nextWords,"graph top next words")
     return None
-    
+
 '''
 setupChartData(corpus1, corpus2, topWordCount)
 #6 [Hw6]
@@ -287,7 +290,26 @@ Parameters: 2D list of strs ; 2D list of strs ; int
 Returns: dict mapping strs to (lists of values)
 '''
 def setupChartData(corpus1, corpus2, topWordCount):
-    return
+    unigram1=buildVocabulary(corpus1)
+    unigram2=buildVocabulary(corpus2)
+    uniProb1=buildUnigramProbs(unigram1,unigramCounts=countUnigrams(corpus1),totalCount=getCorpusLength(corpus1))
+    uniProb2=buildUnigramProbs(unigram2,unigramCounts=countUnigrams(corpus2),totalCount=getCorpusLength(corpus2))
+    topword1=getTopWords(topWordCount,unigram1,uniProb1,ignore)
+    topword2=getTopWords(topWordCount,unigram2,uniProb2,ignore)
+    l=[]
+    for i in topword1:
+        if i not in l:
+            l.append(i)
+    for i in topword2:
+        if i not in l:
+            l.append(i)
+    Prob1=buildUnigramProbs(l,unigramCounts=countUnigrams(corpus1),totalCount=getCorpusLength(corpus1))
+    Prob2=buildUnigramProbs(l,unigramCounts=countUnigrams(corpus2),totalCount=getCorpusLength(corpus2))
+    newDict={}
+    newDict["topWords"]=l
+    newDict["corpus1Probs"]=Prob1
+    newDict["corpus2Probs"]=Prob2
+    return newDict
 
 
 '''
@@ -297,7 +319,9 @@ Parameters: 2D list of strs ; str ; 2D list of strs ; str ; int ; str
 Returns: None
 '''
 def graphTopWordsSideBySide(corpus1, name1, corpus2, name2, numWords, title):
-    return
+    compDict=setupChartData(corpus1, corpus2, numWords)
+    sideBySideBarPlots(compDict["topWords"], compDict["corpus1Probs"],compDict["corpus2Probs"], name1, name2, title)
+    return None
 
 
 '''
@@ -307,7 +331,9 @@ Parameters: 2D list of strs ; 2D list of strs ; int ; str
 Returns: None
 '''
 def graphTopWordsInScatterplot(corpus1, corpus2, numWords, title):
-    return
+    compDict=setupChartData(corpus1, corpus2, numWords)
+    scatterPlot( compDict["corpus1Probs"],compDict["corpus2Probs"], compDict["topWords"], title)
+    return None
 
 
 ### WEEK 3 PROVIDED CODE ###
