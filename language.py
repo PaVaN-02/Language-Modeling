@@ -4,6 +4,7 @@ Name:
 Roll No:
 """
 
+from __future__ import division
 import language_tests as test
 
 project = "Language" # don't edit this
@@ -17,7 +18,15 @@ Parameters: str
 Returns: 2D list of strs
 '''
 def loadBook(filename):
-    return
+    file=open(filename,"r")
+    lines= file.read()
+    corpus=[]
+    for l in lines.split("\n"):
+        if len(l) > 0:
+           word=l.split(" ")
+           corpus.append(word)   
+    return corpus
+
 
 
 '''
@@ -27,7 +36,11 @@ Parameters: 2D list of strs
 Returns: int
 '''
 def getCorpusLength(corpus):
-    return
+    count=0
+    for word in corpus:
+        for i in word:
+            count=count+1
+    return count
 
 
 '''
@@ -37,8 +50,12 @@ Parameters: 2D list of strs
 Returns: list of strs
 '''
 def buildVocabulary(corpus):
-    return
-
+    unigram=[]
+    for lines in corpus:
+        for words in lines:
+         if words not in unigram:
+            unigram.append(words)
+    return unigram
 
 '''
 countUnigrams(corpus)
@@ -47,7 +64,14 @@ Parameters: 2D list of strs
 Returns: dict mapping strs to ints
 '''
 def countUnigrams(corpus):
-    return
+    unigram={}
+    for lines in corpus:
+        for word in lines:
+            if word in unigram:
+                unigram[word]+= 1
+            else:
+                unigram[word] = 1       
+    return unigram
 
 
 '''
@@ -57,7 +81,12 @@ Parameters: 2D list of strs
 Returns: list of strs
 '''
 def getStartWords(corpus):
-    return
+    unigram=[]
+    for lines in corpus:
+        words= lines[0]
+        if words not in unigram:
+            unigram.append(words)   
+    return unigram
 
 
 '''
@@ -67,7 +96,14 @@ Parameters: 2D list of strs
 Returns: dict mapping strs to ints
 '''
 def countStartWords(corpus):
-    return
+    unigram={}
+    for lines in corpus:
+        word=lines[0]
+        if word in unigram:
+            unigram[word]+= 1
+        else:
+            unigram[word] = 1       
+    return unigram
 
 
 '''
@@ -77,7 +113,18 @@ Parameters: 2D list of strs
 Returns: dict mapping strs to (dicts mapping strs to ints)
 '''
 def countBigrams(corpus):
-    return
+    newDict={}
+    for lines in corpus:
+        for i in range(len(lines)-1):
+            word1 = lines[i]
+            word2 = lines[i+1]
+            if word1 not in newDict:
+                newDict[word1]={}
+            if word2 not in newDict[word1]:
+                newDict[word1][word2]=1
+            else:
+                newDict[word1][word2]+=1    
+    return newDict
 
 
 ### WEEK 2 ###
@@ -89,7 +136,8 @@ Parameters: list of strs
 Returns: list of floats
 '''
 def buildUniformProbs(unigrams):
-    return
+    counts=[1/len(unigrams)]*len(unigrams)
+    return counts
 
 
 '''
@@ -99,7 +147,12 @@ Parameters: list of strs ; dict mapping strs to ints ; int
 Returns: list of floats
 '''
 def buildUnigramProbs(unigrams, unigramCounts, totalCount):
-    return
+    Probability=[]
+    for i in range(len(unigrams)):
+        count=unigramCounts[unigrams[i]]
+        division=count/totalCount
+        Probability.append(division) 
+    return Probability
 
 
 '''
@@ -285,18 +338,18 @@ def scatterPlot(xs, ys, labels, title):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
-    test.week1Tests()
-    print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
-    test.runWeek1()
+    # print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
+    # test.week1Tests()
+    # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
+    # test.runWeek1()
 
     ## Uncomment these for Week 2 ##
-"""
+
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
     print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
     test.runWeek2()
-"""
+
 
     ## Uncomment these for Week 3 ##
 """
